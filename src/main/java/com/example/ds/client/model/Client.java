@@ -1,6 +1,7 @@
 package com.example.ds.client.model;
 
 import com.example.ds.role.model.Role;
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,5 +32,6 @@ public class Client {
     private String address;
 
     @ManyToOne
+    @JoinColumn(name = "role_id")
     private Role role;
 }

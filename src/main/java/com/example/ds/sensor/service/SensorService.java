@@ -24,30 +24,29 @@ public class SensorService {
 
     public List<SensorDto> getAllSensors() {
         return sensorRepository.findAll().stream()
-                .map(SensorConverter::convertSensorToSensorDTO)
+                .map(SensorConverter::convertToSensorDTO)
                 .collect(Collectors.toList());
     }
 
     public SensorDto getSensorAtId(String id) {
         Sensor sensor = sensorRepository.findById(Long.parseLong(id))
                 .orElseThrow(() -> new SensorNotFoundException("Couldn't find sensor at id: " + id + "!"));
-        return SensorConverter.convertSensorToSensorDTO(sensor);
+        return SensorConverter.convertToSensorDTO(sensor);
     }
 
 
     public SensorDto saveSensor(SensorDto body) {
-        Device device = deviceRepository.findById(body.getId())
+        Device device = deviceRepository.findByName(body.getDeviceName())
                 .orElseThrow(() -> new DeviceNotFoundException("Couldn't find client with name: " + body.getDeviceName() + "!"));
 
         Sensor builtService = Sensor.builder()
                 .name(body.getName())
                 .timestamp(Date.valueOf(body.getTimestamp()))
                 .device(device)
-                .id(body.getId())
                 .value(body.getValue())
                 .build();
 
-        return SensorConverter.convertSensorToSensorDTO(
+        return SensorConverter.convertToSensorDTO(
                 sensorRepository.save(builtService));
     }
 
@@ -57,12 +56,12 @@ public class SensorService {
 
         Sensor updatedSensor = updateSensorWithNewBody(foundSensor, body);
 
-        return SensorConverter.convertSensorToSensorDTO(updatedSensor);
+        return SensorConverter.convertToSensorDTO(updatedSensor);
     }
 
     private Sensor updateSensorWithNewBody(Sensor foundSensor, SensorDto body) {
         Device device = deviceRepository.findByName(body.getDeviceName())
-                .orElseThrow(() -> new DeviceNotFoundException("Couldn't find device with name: " + body.getId() + "!"));
+                .orElseThrow(() -> new DeviceNotFoundException("Couldn't find device with name: " + body.getName() + "!"));
 
         foundSensor.setDevice(device);
         foundSensor.setTimestamp(Date.valueOf(body.getTimestamp()));

@@ -38,14 +38,19 @@ public class ClientService {
     }
 
     public ClientDto saveClient(ClientDto body) {
-        Role role = roleRepository.findByName(ERole.valueOf(body.getRole()))
-                .orElseThrow(() -> new ClientRoleNotFoundException("Couldn't find role: " + body.getRole().toUpperCase() + "!"));
-
+        Role roleToSet;
+        if (body.getRole() == null) {
+            roleToSet = roleRepository.findByName(ERole.NORMAL_USER)
+                    .orElseThrow(() -> new ClientRoleNotFoundException("Couldn't find role: " + body.getRole().toUpperCase() + "!"));
+        } else {
+            roleToSet = roleRepository.findByName(ERole.valueOf(body.getRole()))
+                    .orElseThrow(() -> new ClientRoleNotFoundException("Couldn't find role: " + body.getRole().toUpperCase() + "!"));
+        }
         Client builtClient = Client.builder()
                 .name(body.getName())
                 .birthdate(LocalDate.parse(body.getBirthdate(), DateTimeFormatter.ofPattern("dd-MM-yyyy")))
                 .address(body.getAddress())
-                .role(role)
+                .role(roleToSet)
                 .build();
 
         Client savedUser = clientRepository.save(builtClient);
@@ -65,11 +70,10 @@ public class ClientService {
     public String deleteClient(String id) {
         try {
             clientRepository.deleteById(Long.parseLong(id));
-            return "Deleted client at id: " + id + ".";
-        } catch (ClientNotFoundException e) {
-            e.printStackTrace();
+            return "Successfully deleted client at id: " + id + ".";
+        } catch (Exception e) {
+            throw new ClientNotFoundException("Couldn't find client at id: " + id + "!");
         }
-        return null;
     }
 
     private Client updateClientWithNewBody(Client client, ClientDto body) {

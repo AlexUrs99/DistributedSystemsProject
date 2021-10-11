@@ -20,7 +20,5 @@ public class Bootstrapper implements ApplicationListener<ApplicationReadyEvent> 
         for (ERole value : ERole.values()) {
             roleRepository.save(Role.builder().name(value).build());
         }
-
-
     }
 }

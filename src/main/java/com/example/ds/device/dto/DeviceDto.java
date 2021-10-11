@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DeviceDto {
-    private Long id;
     private String name;
     private String description;
     private String location;

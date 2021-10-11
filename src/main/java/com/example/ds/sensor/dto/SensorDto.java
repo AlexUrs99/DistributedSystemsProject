@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SensorDto {
-    private Long id;
     private String name;
     private String timestamp;
     private Integer value;

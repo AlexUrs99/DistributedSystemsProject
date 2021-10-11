@@ -23,7 +23,7 @@ public class DeviceService {
 
     public List<DeviceDto> getAllDevices() {
         return deviceRepository.findAll().stream()
-                .map(DeviceConverter::convertDeviceToDeviceDTO)
+                .map(DeviceConverter::convertToDeviceDTO)
                 .collect(Collectors.toList());
     }
 
@@ -31,7 +31,7 @@ public class DeviceService {
     public DeviceDto getDeviceAtId(String id) {
         Device device = deviceRepository.findById(Long.parseLong(id))
                 .orElseThrow(() -> new DeviceNotFoundException("Couldn't find device at id: " + id + "!"));
-        return DeviceConverter.convertDeviceToDeviceDTO(device);
+        return DeviceConverter.convertToDeviceDTO(device);
     }
 
 
@@ -48,7 +48,7 @@ public class DeviceService {
                 .client(client)
                 .build();
 
-        return DeviceConverter.convertDeviceToDeviceDTO(
+        return DeviceConverter.convertToDeviceDTO(
                 deviceRepository.save(builtDevice));
     }
 
@@ -58,7 +58,7 @@ public class DeviceService {
 
         Device updatedDevice = updateDeviceWithNewBody(foundDevice, body);
 
-        return DeviceConverter.convertDeviceToDeviceDTO(updatedDevice);
+        return DeviceConverter.convertToDeviceDTO(updatedDevice);
     }
 
     private Device updateDeviceWithNewBody(Device foundDevice, DeviceDto body) {

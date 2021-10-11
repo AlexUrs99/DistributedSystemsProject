@@ -1,5 +1,6 @@
 package com.example.ds.client.controller;
 
+import com.example.ds.client.ClientFactory;
 import com.example.ds.client.dto.ClientDto;
 import com.example.ds.client.model.Client;
 import com.example.ds.client.service.ClientService;
@@ -22,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class ClientControllerTest {
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     private MockMvc mockMvc;
 
@@ -56,7 +57,7 @@ class ClientControllerTest {
 
     @Test
     void whenSearchingForAClientAtSpecificID_ExpectThatSpecificClient() throws Exception {
-        Client client = ClientFactory.generateNormalUserClient();
+        Client client = ClientFactory.generateClient();
         ClientDto clientDto = ClientFactory.generateNormalUserClientDTO();
         String clientID = client.getId().toString();
 
@@ -66,7 +67,6 @@ class ClientControllerTest {
                 )
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(jsonPath("$.id").value("1"))
                 .andExpect(jsonPath("$.name").value("RandomNormalUser"))
                 .andExpect(jsonPath("$.birthdate").value("28-10-1999"))
                 .andExpect(jsonPath("$.address").value("Address of Normal User, Romania"))
@@ -86,7 +86,6 @@ class ClientControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                 )
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").exists())
                 .andExpect(jsonPath("$.name").value("RandomNormalUser"))
                 .andExpect(jsonPath("$.birthdate").value("28-10-1999"))
                 .andExpect(jsonPath("$.address").value("Address of Normal User, Romania"))
@@ -97,7 +96,7 @@ class ClientControllerTest {
 
     @Test
     void whenEditingAUser_ExpectTheUserToReceiveTheUpdate() throws Exception {
-        Client client = ClientFactory.generateNormalUserClient();
+        Client client = ClientFactory.generateClient();
         ClientDto clientDto = ClientFactory.generateNormalUserClientDTO();
         String clientID = client.getId().toString();
 
@@ -109,7 +108,6 @@ class ClientControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").exists())
                 .andExpect(jsonPath("$.name").value("RandomNormalUser"))
                 .andExpect(jsonPath("$.birthdate").value("28-10-1999"))
                 .andExpect(jsonPath("$.address").value("Address of Normal User, Romania"))
@@ -120,7 +118,7 @@ class ClientControllerTest {
 
     @Test
     void whenDeletingClientWithValidID_ShouldReturnOkStatus() throws Exception {
-        Client client = ClientFactory.generateNormalUserClient();
+        Client client = ClientFactory.generateClient();
         String clientID = client.getId().toString();
 
         when(clientService.deleteClient(clientID)).thenReturn("Deleted client at id: " + clientID + ".");

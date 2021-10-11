@@ -7,9 +7,8 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class SensorConverter {
 
-    public static SensorDto convertSensorToSensorDTO(Sensor sensor) {
+    public static SensorDto convertToSensorDTO(Sensor sensor) {
         return SensorDto.builder()
-                .id(sensor.getId())
                 .timestamp(sensor.getTimestamp().toString())
                 .value(sensor.getValue())
                 .deviceName(sensor.getDevice().getName())

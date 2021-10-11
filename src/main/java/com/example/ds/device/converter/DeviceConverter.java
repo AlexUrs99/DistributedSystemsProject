@@ -7,7 +7,7 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class DeviceConverter {
 
-    public DeviceDto convertDeviceToDeviceDTO(Device device) {
+    public DeviceDto convertToDeviceDTO(Device device) {
         return DeviceDto.builder()
                 .name(device.getName())
                 .clientName(device.getClient().getName())

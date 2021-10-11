@@ -28,16 +28,16 @@ public class ClientController {
 
     @PostMapping
     public ResponseEntity<ClientDto> saveClient(@RequestBody ClientDto body) {
-        return new ResponseEntity(clientService.saveClient(body), HttpStatus.CREATED);
+        return new ResponseEntity<>(clientService.saveClient(body), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ClientDto> editUser(@PathVariable String id, @RequestBody ClientDto body) {
+    public ResponseEntity<ClientDto> editClient(@PathVariable String id, @RequestBody ClientDto body) {
         return ResponseEntity.ok(clientService.editClient(id, body));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable String id) {
+    public ResponseEntity<String> deleteClient(@PathVariable String id) {
         return ResponseEntity.ok(clientService.deleteClient(id));
     }
 }
