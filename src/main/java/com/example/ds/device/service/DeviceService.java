@@ -78,10 +78,9 @@ public class DeviceService {
     public String deleteDevice(String id) {
         try {
             deviceRepository.deleteById(Long.parseLong(id));
-            return "Deleted device at id: " + id + ".";
+            return "Successfully deleted device at id: " + id + ".";
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new DeviceNotFoundException("Couldn't find device at id: " + id + "!");
         }
-        return null;
     }
 }

@@ -10,7 +10,7 @@ public class DeviceConverter {
     public DeviceDto convertToDeviceDTO(Device device) {
         return DeviceDto.builder()
                 .name(device.getName())
-                .clientName(device.getClient().getName())
+                .clientName(device.getClient() == null ? "Not currently assigned to any client." : device.getClient().getName())
                 .averageConsumption(device.getAverageConsumption())
                 .maxConsumption(device.getMaxConsumption())
                 .location(device.getLocation())

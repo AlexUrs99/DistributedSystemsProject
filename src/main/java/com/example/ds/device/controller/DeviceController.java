@@ -3,6 +3,7 @@ package com.example.ds.device.controller;
 import com.example.ds.device.dto.DeviceDto;
 import com.example.ds.device.service.DeviceService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,7 @@ public class DeviceController {
 
     @PostMapping
     public ResponseEntity<DeviceDto> saveDevice(@RequestBody DeviceDto body) {
-        return ResponseEntity.ok(deviceService.saveDevice(body));
+        return new ResponseEntity(deviceService.saveDevice(body), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
