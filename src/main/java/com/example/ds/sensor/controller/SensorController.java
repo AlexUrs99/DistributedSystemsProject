@@ -3,6 +3,7 @@ package com.example.ds.sensor.controller;
 import com.example.ds.sensor.dto.SensorDto;
 import com.example.ds.sensor.service.SensorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,7 @@ public class SensorController {
 
     @PostMapping
     public ResponseEntity<SensorDto> saveSensor(@RequestBody SensorDto body) {
-        return ResponseEntity.ok(sensorService.saveSensor(body));
+        return new ResponseEntity<>(sensorService.saveSensor(body), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

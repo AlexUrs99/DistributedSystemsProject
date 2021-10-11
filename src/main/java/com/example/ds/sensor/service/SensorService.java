@@ -37,7 +37,7 @@ public class SensorService {
 
     public SensorDto saveSensor(SensorDto body) {
         Device device = deviceRepository.findByName(body.getDeviceName())
-                .orElseThrow(() -> new DeviceNotFoundException("Couldn't find client with name: " + body.getDeviceName() + "!"));
+                .orElseThrow(() -> new DeviceNotFoundException("Couldn't find device with name: " + body.getDeviceName() + "!"));
 
         Sensor builtService = Sensor.builder()
                 .name(body.getName())
@@ -74,10 +74,9 @@ public class SensorService {
     public String deleteSensor(String id) {
         try {
             sensorRepository.deleteById(Long.parseLong(id));
-            return "Deleted sensor at id: " + id + ".";
+            return "Successfully deleted sensor at id: " + id + ".";
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new SensorNotFoundException("Couldn't find sensor at id: " + id + "!");
         }
-        return null;
     }
 }
