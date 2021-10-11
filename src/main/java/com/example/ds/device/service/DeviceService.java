@@ -79,7 +79,7 @@ public class DeviceService {
         try {
             deviceRepository.deleteById(Long.parseLong(id));
             return "Deleted device at id: " + id + ".";
-        } catch (ClientNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
